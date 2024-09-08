@@ -1,0 +1,34 @@
+services:
+  backend:
+    container_name: fatmug_demo_local_backend
+    build:
+      context: ./backend
+      dockerfile: ../compose/local/backend/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/usr/src/app
+      - ./logs/backend:/var/log/app
+    env_file:
+      - ./.env/.env.local.django
+      - ./.env/.env.local.db
+    depends_on:
+      - db
+      - redis
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+  db:
+    image: postgres:16
+    container_name: fatmug_demo_local_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./.env/.env.local.db
+
+volumes:
+  postgres_data:
