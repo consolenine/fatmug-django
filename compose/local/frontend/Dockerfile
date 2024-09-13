@@ -4,7 +4,7 @@ WORKDIR /usr/src/app/
 
 COPY ./package.json .
 
-RUN npm install && npm cache clean --force
+RUN npm install
 
 ENV PATH=./node_modules/.bin/:$PATH
 

@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.contrib.auth import  authenticate
+from django.contrib.auth import login, authenticate
 
 from rest_framework import serializers
 
@@ -13,4 +13,5 @@ class UserSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
+        
         return user

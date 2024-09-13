@@ -1,5 +1,5 @@
 # First stage: build environment
-FROM python:3.12-alpine
+FROM python:3.12-bookworm
 
 # Environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -9,12 +9,32 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /usr/src/app
 
 # Install dependencies required for building
-RUN apk update && apk add --no-cache \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
-    musl-dev \
     python3-dev \
-    postgresql-dev \
-    && rm -rf /var/cache/apk/*
+    libpq-dev \
+    clang \
+    libtesseract-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Rust and Cargo
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+# Install Gpac
+RUN git clone https://github.com/gpac/gpac.git && \
+    cd gpac && \
+    ./configure && \
+    make && \
+    make install
+
+# Install CCExtractor
+RUN wget https://github.com/CCExtractor/ccextractor/archive/master.zip && \
+    unzip master.zip && \
+    cd ccextractor-master/linux/ && \
+    ./build && \
+    cp ccextractor /usr/local/bin
 
 # Copy only requirements files and install them
 COPY requirements.txt .
