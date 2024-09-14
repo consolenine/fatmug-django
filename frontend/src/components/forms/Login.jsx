@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Formik, Field, Form } from 'formik';
-import { Link as useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../../axiosConfig';
 import Cookies from 'js-cookie';
 import { useAuth } from '../../contexts/AuthContext';

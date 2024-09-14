@@ -13,6 +13,7 @@ def validate_video_extension(value):
         
 class Video(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="videos")
+    status = models.CharField(max_length=50, default="PENDING")
     uuid = models.UUIDField(unique=True, db_index=True, default=uuid4, editable=False)
     title = models.CharField(max_length=255)
     video_file = models.FileField(upload_to="videos/", validators=[validate_video_extension])

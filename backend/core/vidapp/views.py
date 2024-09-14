@@ -28,6 +28,11 @@ class VideoViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, pk=None):
         queryset = Video.objects.all()
         video = get_object_or_404(queryset, uuid=pk)
+        if video.status == "PENDING":
+            return Response({
+                "status": "PENDING", 
+                "message": "Video is still being processed. Please try again later."
+            }, status=status.HTTP_200_OK)
         serializer = VideoSerializer(video)
         return Response(serializer.data)
 

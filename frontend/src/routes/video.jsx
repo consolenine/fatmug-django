@@ -30,9 +30,18 @@ export const Video = () => {
     const fetchVideo = async () => {
         setLoading(true); // Set loading to true when starting the fetch
         try {
-            const response = await axiosInstance.get(`/vidapp/video/${video_uuid}/`);
-            setVideo(response.data);
-            setLoading(false);
+            const maxPolls = 30;
+            let polls = 0;
+            while (polls < maxPolls) {
+                const response = await axiosInstance.get(`/vidapp/video/${video_uuid}/`);
+                if (response.data.status === 'READY') {
+                    setVideo(response.data);
+                    setLoading(false);
+                    return;
+                }
+                polls++;
+                await new Promise(resolve => setTimeout(resolve, 2000));
+            }
         } catch (error) {
             setErrors(error.response ? error.response.data : 'An error occurred');
             setLoading(false);

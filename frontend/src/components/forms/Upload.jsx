@@ -69,7 +69,7 @@ const Upload = ({ onClose }) => {
                     
                 }
                 onClose();
-                navigate(`/video/${response.data.uuid}`);
+                window.location = (`/video/${response.data.uuid}`);
             }).catch((error) => {
                 if (toastStatRef.current) {
                     toast.update(toastStatRef.current, {

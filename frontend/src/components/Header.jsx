@@ -46,6 +46,7 @@ const Header = () => {
             Cookies.remove('token');
             localStorage.removeItem('user');
             setUser(null);
+            window.location.href = '/';
         }).catch((error) => {
             console.log(error);
         });
@@ -77,13 +78,10 @@ const Header = () => {
             bg="black"
             color="white"
         >
-            <Link href="https://github.com/consolenine/fatmug-django" target='_blank'>
-                <Flex alignItems="center" gap={2}>
-                    <Icon as={IconBrandGithubFilled} name="github" fontSize="2xl" />
-                    <Text as="span" fontWeight="bold" size="md" letterSpacing={"-.1rem"}>
-                        On GitHub
-                    </Text>
-                </Flex>
+            <Link as={RouterLink} to={"/"}>
+                <Heading size="sm">
+                    Fatmug Django
+                </Heading>
             </Link>
             <Button 
                 variant="outline" 
@@ -106,6 +104,14 @@ const Header = () => {
                         p={{ base: 4, lg: 0 }}
                         gap={{ base: 4, lg: 2 }}
                     >
+                        <Link href="https://github.com/consolenine/fatmug-django" target='_blank'>
+                            <Flex alignItems="center" gap={2}>
+                                <Icon as={IconBrandGithubFilled} name="github" fontSize="2xl" />
+                                <Text as="span" fontWeight="bold" size="md" letterSpacing={"-.1rem"}>
+                                    On GitHub
+                                </Text>
+                            </Flex>
+                        </Link>
                         {
                             userData ? (
                                 <>

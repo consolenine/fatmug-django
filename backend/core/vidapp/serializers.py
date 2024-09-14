@@ -17,7 +17,7 @@ class VideoSerializer(serializers.ModelSerializer):
     subtitles = SubtitleSerializer(many=True, read_only=True)
     class Meta:
         model = Video
-        fields = ['uuid', 'title', 'video_file', 'uploaded_at', 'thumbnail', 'subtitles']
+        fields = ['uuid', 'status', 'title', 'video_file', 'uploaded_at', 'thumbnail', 'subtitles']
         extra_kwargs = {
             'uuid': {'read_only': True},
             'uploaded_at': {'read_only': True},

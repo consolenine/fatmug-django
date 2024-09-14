@@ -116,11 +116,12 @@ def process_video_task(video_id):
     thumbnail_saved = extract_thumbnail(video_path, thumbnail_path)
     if thumbnail_saved:
         video.thumbnail = "thumbnails/" + f"{video.uuid}.jpg"
-        video.save()
     
     video_title = extract_title(video_path)
     if video_title:
         video.title = video_title
-        video.save()
     
     extract_subtitles(video, video_path)
+    
+    video.status = "READY"
+    video.save()
