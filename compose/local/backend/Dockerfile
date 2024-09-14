@@ -13,28 +13,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     python3-dev \
     libpq-dev \
-    clang \
-    libtesseract-dev \
+    ffmpeg \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-
-# Install Rust and Cargo
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
-ENV PATH="/root/.cargo/bin:${PATH}"
-
-# Install Gpac
-RUN git clone https://github.com/gpac/gpac.git && \
-    cd gpac && \
-    ./configure && \
-    make && \
-    make install
-
-# Install CCExtractor
-RUN wget https://github.com/CCExtractor/ccextractor/archive/master.zip && \
-    unzip master.zip && \
-    cd ccextractor-master/linux/ && \
-    ./build && \
-    cp ccextractor /usr/local/bin
 
 # Copy only requirements files and install them
 COPY requirements.txt .

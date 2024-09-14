@@ -27,4 +27,4 @@ dist-ssr
 .venv
 logs/*
 __pycache__
-backend/media/videos/*
+backend/media/*

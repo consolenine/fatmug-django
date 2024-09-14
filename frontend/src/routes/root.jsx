@@ -8,7 +8,7 @@ import {
 } from "../components";
 import { AuthProvider } from '../contexts/AuthContext';
 
-export default function Root() {
+export const Root = () => {
 
     return (
         <AuthProvider>

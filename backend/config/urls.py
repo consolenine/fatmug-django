@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.conf import settings
 from django.urls import path, include
-from django.views.static import serve
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("api/accounts/", include("core.accounts.urls")),
@@ -26,6 +26,8 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
+    from core.vidapp.streaming import VideoStreamView
     urlpatterns += [
-        path("media/<path:path>", serve, {"document_root": settings.MEDIA_ROOT,}),
+        path("media/videos/<path:filename>", VideoStreamView.as_view(), name="video-stream"),
     ]
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

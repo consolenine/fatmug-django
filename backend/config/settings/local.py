@@ -41,3 +41,5 @@ CACHES = {
 # ------------------------------------------------------------------------------
 # https://django-extensions.readthedocs.io/en/latest/installation_instructions.html#configuration
 INSTALLED_APPS += ["django_extensions"]
+
+SENDFILE_BACKEND = 'sendfile.backends.development'

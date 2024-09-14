@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 import { axiosFilesInstance } from '../../axiosConfig';
 
 import {
@@ -14,11 +14,24 @@ const Upload = ({ onClose }) => {
     const formRef = useRef();
     const toast = useToast();
     const toastStatRef = useRef();
+    const navigate = useNavigate();
 
     const handleFileChange = (event) => {
         
         const files = Array.from(event.target.files);
-    
+        // Check file size
+        const fileSize = (files[0].size / (1024 * 1024)).toFixed(2); // In MB
+        console.log(fileSize);
+        if (fileSize > 500  ) {
+            event.target.value = null;
+            toast({
+                title: "Exceeding limit",
+                status: "error",
+                duration: 5000,
+                isClosable: true
+            })
+            return;
+        }
         setSelectedFile(files[0]);
     
         // Reset the input field after processing the files
@@ -53,8 +66,10 @@ const Upload = ({ onClose }) => {
                         duration: 5000,
                         isClosable: true,
                     })
+                    
                 }
                 onClose();
+                navigate(`/video/${response.data.uuid}`);
             }).catch((error) => {
                 if (toastStatRef.current) {
                     toast.update(toastStatRef.current, {
@@ -88,7 +103,7 @@ const Upload = ({ onClose }) => {
                                 cursor="pointer"
                                 onClick={() => {handleAddFile()}}
                             >
-                                <Text align="center">Allowed file types <br /> .mp4, .mkv, .mov (Less than 250 MB)</Text>
+                                <Text align="center">Allowed file types <br /> .mp4, .mkv, .mov (Upto 500 MB)</Text>
                                 <Text align='center'>Click to add</Text>
                             </Flex>
                             {

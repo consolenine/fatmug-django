@@ -7,6 +7,7 @@ import {
     ModalCloseButton, ModalHeader, Text, Link
 } from "@chakra-ui/react";
 import {
+    IconBrandGithubFilled,
     IconMenu,
     IconUpload,
 } from "@tabler/icons-react";
@@ -22,6 +23,7 @@ import Upload from './forms/Upload';
 const Header = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [modalContent, setModalContent] = React.useState("login");
+    const [menuCollapsed, setMenuCollapsed] = React.useState(false);
     const {userData, setUser} = useAuth();
 
     const openSignIn = () => {
@@ -66,6 +68,7 @@ const Header = () => {
         <>
         <Flex
             as="header"
+            position="sticky"
             align="center"
             justify="space-between"
             wrap="wrap"
@@ -74,41 +77,63 @@ const Header = () => {
             bg="black"
             color="white"
         >
-            <Flex align="center" mr={5}>
-                <Heading as="h1" size="md" letterSpacing={"-.1rem"} ml={2}>
-                    <RouterLink to="/">Fatmug Demo</RouterLink>
-                </Heading>
-            </Flex>
-            <Button variant="outline" colorScheme="black" display={{ base: "flex", lg: "none" }}>
+            <Link href="https://github.com/consolenine/fatmug-django" target='_blank'>
+                <Flex alignItems="center" gap={2}>
+                    <Icon as={IconBrandGithubFilled} name="github" fontSize="2xl" />
+                    <Text as="span" fontWeight="bold" size="md" letterSpacing={"-.1rem"}>
+                        On GitHub
+                    </Text>
+                </Flex>
+            </Link>
+            <Button 
+                variant="outline" 
+                colorScheme="black" 
+                display={{ base: "flex", lg: "none" }}
+                onClick={() => setMenuCollapsed(!menuCollapsed)}
+            >
                 <Icon as={IconMenu} name="menu" />
             </Button>
-            <ButtonGroup display={{ base: "none", lg: "flex" }} alignItems="center">
-                {
-                    userData ? (
-                        <>
-                            <Button colorScheme="red" onClick={openUpload}>
-                                <Icon as={IconUpload} name="upload" />
-                                Upload
-                            </Button>
-                            <Link as={RouterLink} to="/library">
-                                Video Library
-                            </Link>
-                            <Button size="sm" variant="ghost" colorScheme="red" onClick={handleLogout}>
-                                Log Out
-                            </Button>
-                        </>
-                    ) : (
-                        <>
-                            <Button size="sm" onClick={openSignIn}>
-                                Sign In
-                            </Button> 
-                            <Button size="sm" variant="ghost" colorScheme="white" onClick={openSignUp}>
-                                Sign Up
-                            </Button>
-                        </>
-                    )
-                }
-            </ButtonGroup>
+            {
+                !menuCollapsed && (
+                    <ButtonGroup 
+                        display="flex" 
+                        top="100%"
+                        right="0px"
+                        position={{ base: "absolute", lg: "relative" }}
+                        flexDirection={{ base: "column", lg: "row" }} 
+                        alignItems="center"
+                        bg={{ base: "black", lg: "transparent" }}
+                        p={{ base: 4, lg: 0 }}
+                        gap={{ base: 4, lg: 2 }}
+                    >
+                        {
+                            userData ? (
+                                <>
+                                    <Button colorScheme="red" onClick={openUpload}>
+                                        <Icon as={IconUpload} name="upload" />
+                                        Upload
+                                    </Button>
+                                    <Link as={RouterLink} to="/library">
+                                        Video Library
+                                    </Link>
+                                    <Button size="sm" variant="ghost" colorScheme="red" onClick={handleLogout}>
+                                        Log Out
+                                    </Button>
+                                </>
+                            ) : (
+                                <>
+                                    <Button size="sm" onClick={openSignIn}>
+                                        Sign In
+                                    </Button> 
+                                    <Button size="sm" variant="ghost" colorScheme="white" onClick={openSignUp}>
+                                        Sign Up
+                                    </Button>
+                                </>
+                            )
+                        }
+                    </ButtonGroup>
+                )
+            }
         </Flex>
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />

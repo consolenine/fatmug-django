@@ -5,6 +5,7 @@ from rest_framework import generics, permissions
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 
 from knox.views import LoginView as KnoxLoginView
+from knox.auth import TokenAuthentication
 
 # local apps import
 from .serializers import UserSerializer
@@ -26,6 +27,7 @@ class LoginView(KnoxLoginView):
 class UserView(generics.RetrieveAPIView):
     '''Retrieve the authenticated user'''
     serializer_class = UserSerializer
+    authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_object(self):

@@ -8,8 +8,9 @@ import "./assets/styles/index.css";
 
 import { ChakraProvider } from '@chakra-ui/react';
 
-import ErrorPage from "./error-page";
-import Root from "./routes/root";
+import { 
+    Root, Video, ErrorPage, VideoLibrary
+} from "./routes";
 
 import {
     Home
@@ -26,8 +27,12 @@ const router = createBrowserRouter([
                 element: <Home />,
             },
             {
-                path: "video",
-                element: <div>Video</div>
+                path: "video/:video_uuid",
+                element: <Video />,
+            },
+            {
+                path: "library",
+                element: <VideoLibrary />,
             }
         ]
     },
