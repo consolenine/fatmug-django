@@ -7,7 +7,6 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.views import LoginView as KnoxLoginView
 from knox.auth import TokenAuthentication
 
-# local apps import
 from .serializers import UserSerializer
 
 class CreateUserView(generics.CreateAPIView):

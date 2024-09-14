@@ -106,7 +106,6 @@ def extract_subtitles(video, video_path):
 
 @shared_task
 def process_video_task(video_id):
-    # Retrieve the video object
     video = Video.objects.get(id=video_id)
     video_path = os.path.join(settings.MEDIA_ROOT, video.video_file.name)
     
